@@ -1,11 +1,5 @@
-pipeline {
-    agent {
-        docker {
-            image 'gradle:alpine' 
-            args '-v /root/.gradle:/root/.gradle' 
-        }
-    }
-    stages {
+node {
+    docker.image('gradle:alpine').inside('-v /root/.gradle:/root/.gradle') {
         stage('Build') { 
             steps {
                 echo 'Building' 
@@ -16,13 +10,13 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing'
-                sh '. ./startDatabase.sh'
                 sh './gradlew bootRun'
             }
         }
         stage('Deliver') { 
             steps {
                 echo 'Delivering' 
+                sh '. ./startDatabase.sh'
             }
         }
     }
