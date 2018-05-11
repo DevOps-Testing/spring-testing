@@ -10,18 +10,14 @@ pipeline {
             steps {
                 echo 'Building' 
                 sh 'ls'
+                sh 'which gradle"
             }
         }
         stage('Test') {
             steps {
                 echo 'Testing'
-                sh './startDatabase.sh'
+                sh '. ./startDatabase.sh'
                 sh './gradlew bootRun'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
             }
         }
         stage('Deliver') { 
