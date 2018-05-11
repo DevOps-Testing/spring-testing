@@ -10,7 +10,7 @@ pipeline {
             steps {
                 echo 'Building' 
                 sh 'ls'
-                sh 'which gradle"
+                sh 'which gradle'
             }
         }
         stage('Test') {
