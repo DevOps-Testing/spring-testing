@@ -14,7 +14,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing'
-                sh './startDatabase'
+                sh './startDatabase.sh'
                 sh './gradlew bootRun'
             }
             post {
