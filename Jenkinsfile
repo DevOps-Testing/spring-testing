@@ -1,24 +1,16 @@
 node {
-    checkout scm    
-    docker.image('postgres').withRun('-p 15432:5432 -e "POSTGRES_PASSWORD=password" -e "POSTGRES_USER=testuser"') { c ->
-        docker.image('postgres').inside("--link ${c.id}:db") {
+    checkout scm
+    docker.image('mysql:5').withRun('-e "MYSQL_ROOT_PASSWORD=my-secret-pw"') { c ->
+        docker.image('mysql:5').inside("--link ${c.id}:db") {
             /* Wait until mysql service is up */
-            sh 'hostname && pwd && ls'
-            sh 'while ! pg_isready -h "127.0.0.1" -p "15432"; do sleep 10; done'
+            sh 'while ! mysqladmin ping -hdb --silent; do sleep 1; done'
         }
-        docker.image('gradle:alpine').inside("--link ${c.id}:db -v /root/.gradle:/root/.gradle") {
-            stage('Build') { 
-                echo 'Building' 
-                sh 'ls'
-                sh 'which gradle'
-            }
-            stage('Test') {            
-                echo 'Testing'
-                sh './gradlew bootRun'            
-            }
-            stage('Deliver') { 
-                echo 'Delivering' 
-            }
+        docker.image('centos:7').inside("--link ${c.id}:db") {
+            /*
+             * Run some tests which require MySQL, and assume that it is
+             * available on the host name `db`
+             */
+            echo 'Checking checking'
         }
     }
 }
