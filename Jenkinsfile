@@ -3,6 +3,8 @@ node {
     docker.image('postgres').withRun('-p 15432:5432 -e "POSTGRES_PASSWORD=password" -e "POSTGRES_USER=testuser"') { c ->
         docker.image('postgres').inside("--link ${c.id}:db") {
             /* Wait until mysql service is up */
+            sh 'pwd'
+            sh 'ls'
             sh 'while ! pg_isready -h "localhost" -p "5432"; do sleep 10; done'
         }
         docker.image('gradle:alpine').inside("--link ${c.id}:db -v /root/.gradle:/root/.gradle") {
