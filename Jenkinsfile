@@ -4,7 +4,7 @@ node {
         docker.image('postgres').inside("--link ${c.id}:db") {
             /* Wait until mysql service is up */
             sh 'hostname && pwd && ls'
-            sh 'apk --update iputils'
+            sh 'apt-get install ping'
             sh 'ping db'
             sh 'while ! pg_isready -h "db" -p "15432"; do sleep 10; done'
         }
