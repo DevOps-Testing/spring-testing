@@ -4,6 +4,7 @@ node {
         docker.image('postgres').inside("--link ${c.id}:db") {
             /* Wait until mysql service is up */
             sh 'hostname && pwd && ls'
+            sh 'ping db'
             sh 'while ! pg_isready -h "db" -p "5432"; do sleep 10; done'
         }
         docker.image('gradle:alpine').inside("--link ${c.id}:db -v /root/.gradle:/root/.gradle") {
