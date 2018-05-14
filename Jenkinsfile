@@ -3,8 +3,8 @@ node {
     docker.image('postgres').withRun('-p 15432:5432 -e "POSTGRES_PASSWORD=password" -e "POSTGRES_USER=testuser"') { c ->
         docker.image('postgres').inside("--link ${c.id}:db") {
             /* Wait until mysql service is up */
-            sh 'hostname && pwd && ls'
-            sh 'apt-get install ping'
+            sh 'hostname && pwd && ls && id'
+            sh 'sudo apt-get install ping'
             sh 'ping db'
             sh 'while ! pg_isready -h "db" -p "15432"; do sleep 10; done'
         }
