@@ -8,6 +8,7 @@ node {
         }
         stage('Test') {            
             echo 'Testing'
+            sh 'ls'
             sh 'source env.sample'
             sh './gradlew bootRun'            
         }
