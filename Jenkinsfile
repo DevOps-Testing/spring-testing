@@ -8,8 +8,7 @@ node {
         }
         stage('Test') {            
             echo 'Testing'
-            sh 'ls'
-            sh 'source env.sample'
+            sh 'export WEATHER_API_KEY=3a05ecd95518992366b3d7ca5a853d74'
             sh './gradlew bootRun'            
         }
         stage('Deliver') { 
