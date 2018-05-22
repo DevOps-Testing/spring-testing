@@ -1,4 +1,5 @@
 node {
+    checkout scm
     docker.image('gradle:alpine').inside('-v /root/.gradle:/root/.gradle') {
         stage('Build') { 
             echo 'Building' 
