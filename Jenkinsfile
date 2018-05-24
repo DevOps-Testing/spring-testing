@@ -10,7 +10,7 @@ pipeline {
             steps {
                 echo 'Building' 
                 sh 'ls'
-                sh 'which maven'
+                sh 'which mvn'
                 sh 'mvn -B -DskipTests clean package' 
             }
         }
